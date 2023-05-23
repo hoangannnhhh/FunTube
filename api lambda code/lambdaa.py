@@ -50,3 +50,22 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps('Error subscribing user to notifications: {}'.format(str(e)))
         }
+    
+
+
+
+#Configure Test Event
+# {
+#   "id": "2342543",
+#   "payload": {
+#     "email": "testemail4@test.com",
+#     "eventData": {
+#       "name": "Taylor Swift",
+#       "location": "Atlanta",
+#       "venue": "here",
+#       "date": "2023-05-19",
+#       "time": "18:30:00",
+#       "price": "$99 - $560"
+#     }
+#   }
+# }
