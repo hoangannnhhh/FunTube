@@ -9,10 +9,12 @@
   </head>
   <body>
 	
+    <h1 class="page-title">FunTube</h1> <!-- Website title -->
+
     <form id="form">
-        <label for="email"> Enter Email: </label>
+        <label id="emailText" for="email"> Enter Email: </label>
         <input type="email" id="email" name="email" required><br>
-        
+ 
         <label for="searchArtist">Enter An Artist: </label>
         <input type="text" id="searchArtist" name="searchArtist" placeholder="Search An Artist..." required>
         <button type="button" onclick="performSearch()">Search</button>
