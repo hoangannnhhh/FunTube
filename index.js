@@ -9,15 +9,24 @@ function parseData(events, keyword){
         innerMap['date'] = event['dates']['start']['localDate']
         innerMap['time'] = event['dates']['start']['localTime']
         innerMap['id'] = event['id']
+        
         var prices = event.priceRanges
         if(prices){
-            const priceMap = {}
-            // possible that here is more than one option for prices
-            priceMap['min'] = event['priceRanges'][0]['min']
-            priceMap['max'] = event['priceRanges'][0]['max']
-
-            innerMap['priceRanges'] = priceMap
+            innerMap['min'] = event['priceRanges'][0]['min']
+            innerMap['max'] = event['priceRanges'][0]['max']
+        } else {
+            innerMap['min'] = "None Available" 
+            innerMap['max'] = "None Available"
         }
+        // var prices = event.priceRanges
+        // if(prices){
+        //     const priceMap = {}
+        //     // possible that here is more than one option for prices
+        //     priceMap['min'] = event['priceRanges'][0]['min']
+        //     priceMap['max'] = event['priceRanges'][0]['max']
+
+        //     innerMap['priceRanges'] = priceMap
+        // }
         hashMap[event['id']] = innerMap
     }
     return hashMap
@@ -27,7 +36,7 @@ function displayResults(data, keyword){
     const events = data['_embedded']['events'];
     const table = document.getElementById("results-tbody");
     var neededData = parseData(events, keyword);
-    const headers = ['Name', 'Location', 'Venue', 'Date', 'Time', "Prices", "id"];
+    const headers = ['Name', 'Location', 'Venue', 'Date', 'Time', "Min", "Max", "id"];
     console.log(neededData)
     for( var i in neededData){
         console.log(neededData[i])
@@ -37,13 +46,14 @@ function displayResults(data, keyword){
 
         for(const header of headers) {
             const td = document.createElement('td');
-            if(header  == 'Prices') {
-                var prices = -1
-                if(value.priceRanges){
-                    prices = '$'+value['priceRanges']['min'] + ' - '+ '$'+value['priceRanges']['max']
-                }
-                td.textContent = prices;
-            } else if (header == "id") {
+            // if(header  == 'Min' || header == 'Max') {
+            //     var prices = -1
+            // if(!value.min || !value.max){
+            //         prices = '$'+value['priceRanges']['min'] + ' - '+ '$'+value['priceRanges']['max']
+            //     }
+            //     td.textContent = prices;
+            // } else 
+            if (header == "id") {
                 td.textContent = value[header]
                 td.style.display = "none"
             } else {
@@ -112,14 +122,16 @@ form.addEventListener('submit', function(event) {
     };
 
     const row = document.querySelector('.selected');
-    const showId = row.getElementsByTagName('td')[6].textContent
+    const showId = row.getElementsByTagName('td')[7].textContent
     const eventInfo = {
         'name' : row.getElementsByTagName('td')[0].textContent,
         'location' : row.getElementsByTagName('td')[1].textContent,
         'venue' : row.getElementsByTagName('td')[2].textContent,
         'date' : row.getElementsByTagName('td')[3].textContent,
         'time' : row.getElementsByTagName('td')[4].textContent,
-        'price' : row.getElementsByTagName('td')[5].textContent
+        'min' : row.getElementsByTagName('td')[5].textContent,
+        'max' : row.getElementsByTagName('td')[6].textContent
+        //'price' : row.getElementsByTagName('td')[5].textContent
     }
 
     
@@ -131,7 +143,7 @@ form.addEventListener('submit', function(event) {
             eventData: eventInfo
         }
     };
-
+    console.log(data)
     xhr.send(JSON.stringify(data)); // Convert data to JSON 
     
 });
