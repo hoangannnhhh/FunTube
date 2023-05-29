@@ -83,7 +83,7 @@ def update_dynamodb(table, show_id, event_data):
             Message=notification_message
         )
 
-
+  
 
 #Configure Test Event
 # {
