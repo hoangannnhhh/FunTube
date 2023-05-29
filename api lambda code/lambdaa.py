@@ -7,10 +7,10 @@ def lambda_handler(event, context):
     # Create a DynamoDB client
     
     dynamodb = boto3.client('dynamodb')
-    item_string = json.dumps(event)
+ 
     # Write the email to the DynamoDB table
     response = dynamodb.put_item(
-        TableName='funtubeDB',
+        TableName='funtubeDB2',
         Item={
         'id': {'S': event['id']},
         'email': {'S': event['payload']['email']},
@@ -18,7 +18,8 @@ def lambda_handler(event, context):
         'location': {'S': event['payload']['eventData']['location']},
         'date': {'S': event['payload']['eventData']['date']},
         'time': {'S': event['payload']['eventData']['time']},
-        'price': {'S': event['payload']['eventData']['price']}
+        'min': {'S': event['payload']['eventData']['min']},
+        'max': {'S': event['payload']['eventData']['max']}
                 }
             )
     # Subscribe the user's email to an SNS topic
@@ -50,8 +51,6 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps('Error subscribing user to notifications: {}'.format(str(e)))
         }
-    
-
 
 
 #Configure Test Event
@@ -65,7 +64,8 @@ def lambda_handler(event, context):
 #       "venue": "here",
 #       "date": "2023-05-19",
 #       "time": "18:30:00",
-#       "price": "$99 - $560"
+#       "min": "9",
+#       "max": "10"
 #     }
 #   }
 # }
