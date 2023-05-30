@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     # Retrieve artist and user details from event
     table = dynamodb.Table(dynamodb_table_name)
     response = table.scan()
-
+    # Items : {data}, somethingelse: {someData}
     for item in response['Items']:
         show_id = item['id']
         email = item['email']
@@ -34,55 +34,56 @@ def lambda_handler(event, context):
                 'date' : data['dates']['start']['localDate'],
                 'time' : data['dates']['start']['localTime'],
                 'id' : data['id'],
-                'min' : data['priceRanges']['min'],
-                'max' : data['priceRanges']['max']
-                }
+                'min' : str(data['priceRanges'][0]['min']),
+                'max' : str(data['priceRanges'][0]['max'])
+            }
+            print(type(data['priceRanges'][0]['min']))
             # Update the item in DynamoDB
-            update_dynamodb(table, show_id, event_data)
+            update_dynamodb(table, email, show_id, event_data)
+            #Notifying users of updated information
+            sending_user_updated_info(email, event_data)
+            
+            
 
-def update_dynamodb(table, show_id, event_data):
+def update_dynamodb(table, email, show_id, event_data):
+    dynamodb_client = boto3.client('dynamodb')
     # Update the item in DynamoDB
-    table.update_item(
+    response = dynamodb_client.update_item(
+        TableName = 'funtubeDB2',
         Key={
-            'id': show_id
+            'id': {'S' : event_data['id']},
+            'email': {'S' : email}
         },
-        UpdateExpression='SET #name = :name, #location = :location, #venue = :venue, #date = :date, #time = :time, #min = :min, #max = :max',
+        UpdateExpression='SET #min = :min, #max = :max',
         ExpressionAttributeNames={
-            '#name': 'name',
-            '#location': 'location',
-            '#venue': 'venue',
-            '#date': 'date',
-            '#time': 'time',
             '#min': 'min',
             '#max': 'max'
             },
         ExpressionAttributeValues={
-            ':name': event_data['name'],
-            ':location': event_data['location'],
-            ':venue': event_data['venue'],
-            ':date': event_data['date'],
-            ':time': event_data['time'],
-            ':min': event_data['min'],
-            ':max': event_data['max']
+            ':min': {'S' : event_data['min']},
+            ':max': {'S' : event_data['max']}
             }
     )
- # Subscribe the user's email to an SNS topic
+    
+def sending_user_updated_info(email, event_data):
     sns = boto3.client('sns')
-    sns_topic_arn = 'arn:aws:sns:us-east-1:035082996281:funtuberegisteredemail'
+    sns_topic_arn = 'arn:aws:sns:us-east-1:035082996281:email'
     try:
-        response = sns.subscribe(
-            TopicArn=sns_topic_arn,
-            Protocol='email',
-            Subject='Ticket Price Update'
-        )
-        # Customize the notification message here
-        notification_message = f"This is the updated information for {artist_name} :\n{json.dumps(ticket_prices)}"
-        # Send the customized notification to the user
         response = sns.publish(
             TopicArn=sns_topic_arn,
-            Message=notification_message
+            # Protocol='email',
+            Message=f"This is the updated information for {'name'} ",
+            Subject='Ticket Price Update',
+            MessageAttributes={
+                'Email': {
+                    'DataType': 'String',
+                    'StringValue': email
+                }
+            }
         )
-
+        print("User has been updated successfully.")
+    except Exception as e:
+        print("Error sending email")
   
 
 #Configure Test Event
