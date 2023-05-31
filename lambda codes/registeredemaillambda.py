@@ -72,7 +72,7 @@ def sending_user_updated_info(email, event_data):
         response = sns.publish(
             TopicArn=sns_topic_arn,
             # Protocol='email',
-            Message=f"This is the updated information for {'name'} ",
+            Message=f"This is the updated information for {'name'}: The current lowest price is ${event_data['min']} and the highest price is ${event_data['max'].",
             Subject='Ticket Price Update',
             MessageAttributes={
                 'Email': {
@@ -84,7 +84,6 @@ def sending_user_updated_info(email, event_data):
         print("User has been updated successfully.")
     except Exception as e:
         print("Error sending email")
-  
 
 #Configure Test Event
 # {
