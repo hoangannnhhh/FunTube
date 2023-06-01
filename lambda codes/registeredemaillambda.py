@@ -72,7 +72,7 @@ def sending_user_updated_info(email, event_data):
         response = sns.publish(
             TopicArn=sns_topic_arn,
             # Protocol='email',
-            Message=f"This is the updated information for {'name'}: The current lowest price is ${event_data['min']} and the highest price is ${event_data['max'].",
+            Message=f"This is the updated information for {event_data['name']}: The current lowest price is ${event_data['min']} and the highest price is ${event_data['max']}.",
             Subject='Ticket Price Update',
             MessageAttributes={
                 'Email': {
