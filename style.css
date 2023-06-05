@@ -1,132 +1,93 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Mukta', sans-serif;  
-}
-
-h1 {
-    font-size: 100px;
-    text-transform: uppercase;
+tr.selected {
+    background-color: rgb(206, 225, 82);
   }
-.title {
-    text-align: center;
-    color: white;
-    margin-bottom: 0px;
-    text-size-adjust: 100px;
-}
-
-.hero {
-    width: 100%;
-    height: 100%;
-    background-image:url(images/background.png);
+  body {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("Baakcground2.png");
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover;
-}
-
-.selector{
-    width: 350px;
-    margin-top: 20px;
-}
-
-#selectField{
-    width: 100%;
-    padding: 15px 20px;
-    margin-bottom: 30px;
-    box-sizing: border-box;
-    background: rgba(225, 255, 255, 0.823);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    
-}
-
-#selectField img{
-    width: 12px;
-    transition: transform 0.5s;
-}
-
-#list{
-    width: 100%;
-    background: rgba(225, 255, 255, 0.823);
-    border-radius: 6px;
-    overflow: hidden;
-    
-}
-
-.options{
-    width: 100%;
-    padding: 15px 0 15px 42.5%;
-    list-style: none;
-    cursor: pointer;
-    box-sizing: border-box;
-    position:relative;
-}
-
-.options:hover{
-    background: rgba(225, 255, 255, 0.823);
-}
-
-.hide{
-    visibility: hidden;
-}
-.rotate{
-    transform: rotate(180deg);
-}
-.notification-box{
-    margin-top: 20px;
-    text-align: space-between;
-    background-color: rgba(225, 255, 255, 0.823);
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.subscription-box {
-    margin-top: 50px;
-    text-align: center;
-    background-color: rgba(225, 255, 255, 0.823);
-    padding: 15px;
-    border-radius: 10px;
-    width: auto;
-    
+    background-attachment: fixed;
   }
   
-  .subscription-box form {
+  .page-title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 100px;
+    color: #f3e4e4;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  
+  .container {
+    max-width: 400px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+  }
+  
+  form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: rgba(80, 30, 161, 0.9);
+    border-radius: 30px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
   }
   
-  .subscription-box label {
-    margin-bottom: 10px;
+  label {
+    margin-bottom: 5px;
   }
-  
-  .subscription-box input[type="email"] {
+  label[for="email"],
+  label[for="searchArtist"] {
+  color: white;
+}
+  input[type="email"],
+  input[type="text"],
+  input[type="submit"],
+  button {
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 6px;
+    border-radius: 5px;
     border: none;
   }
   
-  .subscription-box button {
-    padding: 10px 20px;
-    border-radius: 25px;
-    border: none;
-    background-color: rgb(241, 8, 101);
-    color: whitesmoke;
-    font-weight: bold;
+  input[type="submit"],
+  button[type="button"] {
+    background: linear-gradient(to right, #b300a1, #ffa601);
+    color: #fff;
     cursor: pointer;
-    font-size: 15px;
-
   }
   
-  .subscription-box button:hover {
-    background-color: rgba(241, 8, 101, 0.806);
+  input[type="submit"]:hover,
+  button[type="button"]:hover {
+    background: linear-gradient(to right, #7e0072, #cb8400);
   }
- 
+  
+  #results-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  #results-table th,
+  #results-table td {
+    padding: 10px;
+    border: 1px solid #282727;
+  }
+  
+  #results-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }

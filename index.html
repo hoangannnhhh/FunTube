@@ -1,75 +1,51 @@
-<html>
-    <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap" rel="stylesheet"> 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+	
+    <h1 class="page-title">FunTube</h1> <!-- Website title -->
 
-        <title>Funtube</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div
-        <div class="hero">
-            <h1 class="title">Funtube</h1>
+    <form id="form">
+        <label id="emailText" for="email"> Enter Email: </label>
+        <input type="email" id="email" name="email" required><br>
+ 
+        <label for="searchArtist">Enter An Artist: </label>
+        <input type="text" id="searchArtist" name="searchArtist" placeholder="Search An Artist..." required>
+        <button type="button" onclick="performSearch()">Search</button>
+        <table id="results-table">
+            <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Venue</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Min</th>
+                  <th>Max</th>
+                </tr>
+              </thead>
+              <tbody id="results-tbody">
 
-            <div class="selector">
-                <div id="selectField">
-                    <p id="selectText">Select an Event</p> 
-                    <img src="images/arrow.png" id="arrowIcon">
-                </div>
-                <ul id="list"class="hide">
-                    <li class="options">
-                        <p>Item 1</p>
-                    </li>
-                    <li class="options">
-                        <p>Item 2</p>
-                    </li>
-                    <li class="options">
-                        <p>Item 3</p>
-                    </li>
-                    <li class="options">
-                        <p>Item 4</p>
-                    </li>
-                </ul>
-            </div>
+              </tbody>
+        </table>
+        <script>
+            const tableBody = document.querySelector('#results-table tbody')
+            tableBody.addEventListener('click', function(event) {
+                const selectedRow = event.target.closest('tr')
 
-            <div class="notification-box">
-              <label for="days-input">In how many days do you want to be notified?</label>
-              <input type="number" id="days-input" name="days" min="1" max="365" required>
-            </div>
-
-            <div class="subscription-box">
-              <form>
-                <label for="email-input">Enter Your Email to Subscribe:</label>
-                <input type="email" id="email-input" name="email" required>
-                <button type="submit">Subscribe</button>
-              </form>
-            </div>
-
-        </div>
-
-    <script>
-        var selectField = document.getElementById("selectField");
-        var selectText = document.getElementById("selectText");
-        var options = document.getElementsByClassName("options");
-        var list = document.getElementById("list");
-        var arrowIcon = document.getElementById("arrowIcon");
-
-        selectField.onclick = function(){
-            list.classList.toggle("hide");
-            arrowIcon.classList.toggle("rotate")
-        }
-
-        for(option of options){
-            option.onclick = function(){
-                selectText.innerHTML = this.textContent;
-                list.classList.toggle("hide");
-                arrowIcon.classList.toggle("rotate")
-            }
-        }
-
-    </script>
-
-
-    </body>
+                if(selectedRow) {
+                    selectedRow.classList.toggle('selected');
+                }
+            });
+        </script>
+        <input type="submit" value="Submit">
+    </form>
+  </body>
+  <script src="index.js"></script>
 </html>
