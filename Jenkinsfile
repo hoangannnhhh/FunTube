@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-credentials')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-credentials')
+        AWS_DEFAULT_REGION = 'us-east-1' // Use AWS_DEFAULT_REGION instead of AWS_REGION
+        LAMBDA_FUNCTION_NAME = 'EmailRetrival' // name of the lambda function
+        GITHUB_REPO_URL = 'https://github.com/mauriquev/funtube-cicd.git'
+        GITHUB_BRANCH = 'main'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${env.GITHUB_BRANCH}",
+                    credentialsId: 'github-token',
+                    url: "${env.GITHUB_REPO_URL}"
+            }
+        }
+        stage('Check Changes') {
+            steps {
+                script {
+                    sh "git fetch origin"
+                    def hasChanges = sh(script: "git diff --name-only origin/${env.GITHUB_BRANCH} -- lambda_function.py", returnStatus: true)
+                    if (hasChanges == 0) {
+                        echo 'Changes found in lambda_function.py. Proceeding with deployment...'
+                    } else {
+                        echo 'No changes found in lambda_function.py. Skipping deployment...'
+                        return
+                    }
+                }
+            }
+        }
+        stage('Deploy to AWS Lambda') {
+            when {
+                changeset "**/lambda_function.py"
+            }
+            steps {
+                sh 'pip install --user awscli'
+                sh 'zip -r lambda_function.zip lambda_function.py'
+                sh 'aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://lambda_function.zip'
+            }
+        }
+    }
+}
