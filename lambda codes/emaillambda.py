@@ -4,7 +4,6 @@ def lambda_handler(event, context):
     #showID = next(iter(event.keys()))
     # Retrieve the email data from the event object
     #email = event[showID]['email']
-    # Create a DynamoDB client
     
     dynamodb = boto3.client('dynamodb')
  
@@ -24,7 +23,6 @@ def lambda_handler(event, context):
             )
     # Subscribe the user's email to an SNS topic
     sns = boto3.client('sns')
-    # Replace the sns_topic_arn with your SNS topic ARN
     sns_topic_arn = 'arn:aws:sns:us-east-1:035082996281:email'
     try:
         response = sns.subscribe(

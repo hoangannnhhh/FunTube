@@ -65,6 +65,7 @@ def update_dynamodb(table, email, show_id, event_data):
             }
     )
     
+#notify users of updated information    
 def sending_user_updated_info(email, event_data):
     sns = boto3.client('sns')
     sns_topic_arn = 'arn:aws:sns:us-east-1:035082996281:email'
