@@ -3,8 +3,8 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('aws-credentials')
         AWS_SECRET_ACCESS_KEY = credentials('aws-credentials')
-        AWS_DEFAULT_REGION = 'us-east-1' // Use AWS_DEFAULT_REGION instead of AWS_REGION
-        LAMBDA_FUNCTION_NAME = 'EmailRetrival' // name of the lambda function
+        AWS_DEFAULT_REGION = 'us-east-1' 
+        LAMBDA_FUNCTION_NAME = 'EmailRetrival' 
         GITHUB_REPO_URL = 'https://github.com/mauriquev/funtube-cicd.git'
         GITHUB_BRANCH = 'main'
     }
